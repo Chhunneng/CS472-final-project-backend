@@ -3,18 +3,14 @@ import { open } from "sqlite";
 import path from "path";
 import { initializeSampleData } from "../data/sampleData";
 
-// Database instance
 export let db: any;
 
-// Initialize database
 export async function initializeDatabase() {
-  // Open the database
   db = await open({
     filename: path.join(__dirname, "../../database.sqlite"),
     driver: sqlite3.Database,
   });
 
-  // Create tables if they don't exist
   await db.exec(`
     CREATE TABLE IF NOT EXISTS products (
       id TEXT PRIMARY KEY,
@@ -38,7 +34,6 @@ export async function initializeDatabase() {
     );
   `);
 
-  // Check if we need to add sample data
   const productCount = await db.get("SELECT COUNT(*) as count FROM products");
 
   if (productCount.count === 0) {
@@ -46,14 +41,20 @@ export async function initializeDatabase() {
   }
 }
 
-// Helper function to calculate average rating
-export async function calculateAverageRating(productId: string): Promise<number> {
-  const result = await db.get(`SELECT AVG(rating) as avgRating FROM reviews WHERE productId = ?`, [productId]);
+export async function calculateAverageRating(
+  productId: string
+): Promise<number> {
+  const result = await db.get(
+    `SELECT AVG(rating) as avgRating FROM reviews WHERE productId = ?`,
+    [productId]
+  );
   return result.avgRating ?? 5;
 }
 
-// Helper function to update product ratings
 export async function updateProductRatings(productId: string): Promise<void> {
   const avgRating = await calculateAverageRating(productId);
-  await db.run(`UPDATE products SET averageRating = ? WHERE id = ?`, [Number(avgRating.toFixed(1)), productId]);
+  await db.run(`UPDATE products SET averageRating = ? WHERE id = ?`, [
+    Number(avgRating.toFixed(1)),
+    productId,
+  ]);
 }

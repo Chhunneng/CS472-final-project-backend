@@ -20,7 +20,6 @@ export async function createReview(productId: string, reviewData: CreateReviewDt
     [id, productId, reviewData.author, Number.parseInt(reviewData.rating.toString()), reviewData.comment, date],
   )
 
-  // Update product rating
   await updateProductRatings(productId)
 
   return (await getReviewById(id, productId)) as Review
@@ -43,7 +42,6 @@ export async function updateReview(id: string, productId: string, reviewData: Up
     id,
   ])
 
-  // Update product rating
   await updateProductRatings(productId)
 
   return await getReviewById(id, productId)
@@ -53,7 +51,6 @@ export async function deleteReview(id: string, productId: string): Promise<boole
   const result = await db.run(`DELETE FROM reviews WHERE id = ? AND productId = ?`, [id, productId])
 
   if (result.changes > 0) {
-    // Update product rating
     await updateProductRatings(productId)
     return true
   }
