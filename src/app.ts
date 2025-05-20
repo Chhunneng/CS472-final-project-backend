@@ -12,17 +12,7 @@ const app = express();
 
 const allowedOrigins = process.env.CORS_ALLOWED_ORIGINS?.split(',') || [];
 app.use(cors({
-  origin: function(origin, callback) {
-    if (!origin) return callback(null, true);
-    
-    if (allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
-  credentials: true
+  origin: allowedOrigins 
 }));
 
 app.use(express.json());

@@ -13,6 +13,7 @@ async function startServer() {
         app_1.default.listen(PORT, () => {
             console.log(`Server running on port ${PORT}`);
             console.log(`Swagger documentation available at http://localhost:${PORT}/api-docs`);
+            console.log(`CORS allowed origins: ${process.env.CORS_ALLOWED_ORIGINS}`);
         });
     }
     catch (error) {

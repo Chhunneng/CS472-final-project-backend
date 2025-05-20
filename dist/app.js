@@ -16,18 +16,7 @@ require('dotenv').config();
 const app = (0, express_1.default)();
 const allowedOrigins = ((_a = process.env.CORS_ALLOWED_ORIGINS) === null || _a === void 0 ? void 0 : _a.split(',')) || [];
 app.use((0, cors_1.default)({
-    origin: function (origin, callback) {
-        if (!origin)
-            return callback(null, true);
-        if (allowedOrigins.indexOf(origin) !== -1) {
-            callback(null, true);
-        }
-        else {
-            callback(new Error('Not allowed by CORS'));
-        }
-    },
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
-    credentials: true
+    origin: allowedOrigins
 }));
 app.use(express_1.default.json());
 app.use("/products", productRoutes_1.default);
