@@ -10,7 +10,6 @@ node_modules/
 .env.*.local
 
 # Ignore build outputs
-dist/
 build/
 
 # Ignore system files

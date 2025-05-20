@@ -3,7 +3,6 @@ import { initializeDatabase } from "./config/database";
 require('dotenv').config();
 
 const PORT = process.env.PORT;
-console.log("zport", PORT)
 
 async function startServer() {
   try {
